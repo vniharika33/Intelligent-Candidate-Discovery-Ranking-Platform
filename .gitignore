@@ -7,6 +7,8 @@ ranking_resultss.csv
 final_ranking_results.csv
 inspect_top50.py
 top50_details.txt
+top100.csv
+candidate_embeddings.pt
 
 
 

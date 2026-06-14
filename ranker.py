@@ -3,13 +3,13 @@ def experience_score(c):
     exp = c["profile"]["years_of_experience"]
 
     if 6 <= exp <= 8:
-    return 1.0
+        return 1.0
 
     elif 5 <= exp <= 9:
-    return 0.8
+        return 0.8
 
     elif 4 <= exp <= 10:
-    return 0.6
+        return 0.6
 
     return 0.2
 
@@ -50,13 +50,13 @@ def behavioral_score(c):
 
     # Recruiter responsiveness
     if s["recruiter_response_rate"] >= 0.8:
-    score += 0.15
+        score += 0.15
 
     elif s["recruiter_response_rate"] >= 0.5:
-    score += 0.10
+        score += 0.10
 
     elif s["recruiter_response_rate"] >= 0.3:
-    score += 0.05
+        score += 0.05
 
     # Interview reliability
     score += 0.15 * s["interview_completion_rate"]

@@ -1,4 +1,6 @@
 import json
+import os
+import torch
 import time
 
 from sentence_transformers import SentenceTransformer
@@ -43,7 +45,6 @@ with open(
 
 print("Candidates Loaded:", len(candidates))
 
-
 def candidate_text(c):
 
     text = ""
@@ -71,24 +72,47 @@ texts = [
     for c in candidates
 ]
 
-print("Creating candidate embeddings...")
+EMBEDDING_FILE = "candidate_embeddings.pt"
 
-start = time.time()
+if os.path.exists(EMBEDDING_FILE):
 
-candidate_embeddings = model.encode(
-    texts,
-    batch_size=64,
-    show_progress_bar=True,
-    convert_to_tensor=True
-)
+    print("Loading saved embeddings...")
 
-end = time.time()
+    candidate_embeddings = torch.load(
+        EMBEDDING_FILE,
+        weights_only=False
+    )
 
-print(
-    "Embedding Time:",
-    end - start,
-    "seconds"
-)
+else:
+
+    print("Creating candidate embeddings...")
+
+    start = time.time()
+
+    candidate_embeddings = model.encode(
+        texts,
+        batch_size=64,
+        show_progress_bar=True,
+        convert_to_tensor=True
+    )
+
+    torch.save(
+        candidate_embeddings,
+        EMBEDDING_FILE
+    )
+
+    end = time.time()
+
+    print(
+        "Embedding Time:",
+        end - start,
+        "seconds"
+    )
+
+    print(
+        "Embeddings saved to",
+        EMBEDDING_FILE
+    )
 
 print("Creating JD embedding...")
 
