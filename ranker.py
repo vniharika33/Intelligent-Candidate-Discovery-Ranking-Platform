@@ -2,11 +2,14 @@ def experience_score(c):
 
     exp = c["profile"]["years_of_experience"]
 
-    if 5 <= exp <= 9:
-        return 1.0
+    if 6 <= exp <= 8:
+    return 1.0
+
+    elif 5 <= exp <= 9:
+    return 0.8
 
     elif 4 <= exp <= 10:
-        return 0.8
+    return 0.6
 
     return 0.2
 
@@ -46,7 +49,14 @@ def behavioral_score(c):
         score += 0.20
 
     # Recruiter responsiveness
-    score += 0.15 * s["recruiter_response_rate"]
+    if s["recruiter_response_rate"] >= 0.8:
+    score += 0.15
+
+    elif s["recruiter_response_rate"] >= 0.5:
+    score += 0.10
+
+    elif s["recruiter_response_rate"] >= 0.3:
+    score += 0.05
 
     # Interview reliability
     score += 0.15 * s["interview_completion_rate"]
@@ -93,25 +103,34 @@ def negative_title_penalty(c):
 
     title = c["profile"]["current_title"].lower()
 
+    penalty = 0
+
     bad_titles = [
-    "marketing manager",
-    "sales executive",
-    "graphic designer",
-    "accountant",
-    "operations manager",
-    "mechanical engineer",
-    "civil engineer",
-    "content writer",
-    "frontend engineer",
-    "mobile developer",
-    "business analyst"
+        "marketing manager",
+        "sales executive",
+        "graphic designer",
+        "accountant",
+        "operations manager",
+        "mechanical engineer",
+        "civil engineer",
+        "content writer",
+        "frontend engineer",
+        "mobile developer",
+        "business analyst"
     ]
 
     for t in bad_titles:
         if t in title:
-            return 2.0
+            penalty += 1.0
 
-    return 0.0
+    if "research scientist" in title:
+        penalty += 0.3
+
+    if "junior" in title:
+        penalty += 0.4
+
+    return min(penalty, 1.0)
+
 
 def retrieval_score(c):
 
@@ -186,11 +205,13 @@ def company_score(c):
 
         company = job["company"].lower()
 
-        if company in product_companies:
-            score += 0.25
+        for p in product_companies:
+            if p in company:
+                score += 0.25
 
-        if company in consulting_companies:
-            score -= 0.15
+        for p in consulting_companies:
+            if p in company:
+                score -= 0.15
 
     return max(min(score, 1.0), -1.0)
 
