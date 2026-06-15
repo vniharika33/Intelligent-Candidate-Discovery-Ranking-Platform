@@ -10,7 +10,8 @@ top50_details.txt
 top100.csv
 candidate_embeddings.pt
 submission.csv
-
+sample_50.py
+sample_50.jsonl
 
 
 
