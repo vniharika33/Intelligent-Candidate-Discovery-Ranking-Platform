@@ -83,6 +83,16 @@ if os.path.exists(EMBEDDING_FILE):
         weights_only=False
     )
 
+    print(
+        "Loaded embeddings:",
+        len(candidate_embeddings)
+    )
+
+    print(
+        "Loaded candidates:",
+        len(candidates)
+    )
+
 else:
 
     print("Creating candidate embeddings...")
@@ -135,13 +145,13 @@ for i, c in enumerate(candidates):
     )
 
     score = (
-    0.25 * semantic_similarity
+    0.20 * semantic_similarity
     + 0.15 * experience_score(c)
     + 0.20 * title_score(c)
-    + 0.15 * behavioral_score(c)
+    + 0.18 * behavioral_score(c)
     + 0.15 * retrieval_score(c)
     + 0.05 * company_score(c)
-    + 0.10 * activity_score(c)
+    + 0.12 * activity_score(c)
     + 0.03 * location_score(c)
     + 0.05 * stability_score(c)
     - 0.20 * negative_title_penalty(c)

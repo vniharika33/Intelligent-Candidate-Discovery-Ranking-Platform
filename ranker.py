@@ -46,7 +46,9 @@ def behavioral_score(c):
 
     # Available candidate
     if s["open_to_work_flag"]:
-        score += 0.20
+        score += 0.25
+    else:
+        score -= 0.10
 
     # Recruiter responsiveness
     if s["recruiter_response_rate"] >= 0.8:
@@ -59,7 +61,7 @@ def behavioral_score(c):
         score += 0.05
 
     # Interview reliability
-    score += 0.15 * s["interview_completion_rate"]
+    score += 0.20 * s["interview_completion_rate"]
 
     # Notice period
     if s["notice_period_days"] <= 30:

@@ -55,38 +55,92 @@ def generate_reasoning(c):
 
     exp = c["profile"]["years_of_experience"]
 
-    reason_parts = []
+    skills = [
+        s["name"]
+        for s in c["skills"]
+    ]
 
-    reason_parts.append(
-        f"{title}; {exp:.1f} yrs experience"
-    )
+    retrieval_skills = []
 
-    if retrieval_score(c) >= 0.7:
-        reason_parts.append(
-            "strong retrieval/ranking background"
+    for skill in [
+        "Information Retrieval",
+        "Learning to Rank",
+        "Semantic Search",
+        "Vector Search",
+        "Recommendation Systems",
+        "BM25",
+        "FAISS",
+        "Pinecone",
+        "Qdrant",
+        "Weaviate",
+        "Milvus",
+        "OpenSearch",
+        "Elasticsearch"
+    ]:
+
+        if skill in skills:
+            retrieval_skills.append(skill)
+
+    reason = f"{title} with {exp:.1f} yrs experience"
+
+    if retrieval_skills:
+
+        reason += (
+            "; retrieval/ranking expertise ("
+            + ", ".join(retrieval_skills[:3])
+            + ")"
         )
 
     if company_score(c) > 0:
-        reason_parts.append(
-            "product-company experience"
-        )
+        reason += "; product-company background"
 
     if behavioral_score(c) >= 0.6:
-        reason_parts.append(
-            "high behavioral engagement"
-        )
+        reason += "; strong recruiter/activity signals"
 
-    if activity_score(c) >= 0.6:
-        reason_parts.append(
-            "active candidate"
-        )
+    if (
+        not c["redrob_signals"]["open_to_work_flag"]
+        and c["redrob_signals"]["recruiter_response_rate"] < 0.2
+    ):
+        reason += "; lower availability signals"
 
-    return "; ".join(reason_parts) + "."
+    return reason + "."
 
-first_id = top100[0]["candidate_id"]
+with open(
+    "submission.csv",
+    "w",
+    newline="",
+    encoding="utf-8"
+) as f:
 
-print(
-    generate_reasoning(
-        candidates[first_id]
+    writer = csv.writer(f)
+
+    writer.writerow(
+        [
+            "candidate_id",
+            "rank",
+            "score",
+            "reasoning"
+        ]
     )
-)
+
+    for rank, row in enumerate(
+        top100,
+        start=1
+    ):
+
+        cid = row["candidate_id"]
+
+        reason = generate_reasoning(
+            candidates[cid]
+        )
+
+        writer.writerow(
+            [
+                cid,
+                rank,
+                row["score"],
+                reason
+            ]
+        )
+
+print("submission.csv created")
