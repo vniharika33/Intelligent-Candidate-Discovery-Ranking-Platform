@@ -277,7 +277,7 @@ The demo allows reviewers to:
 
 Sandbox URL:
 
-[<Streamlit link>](https://vniharika33-intelligent-candidate-discovery-ranking--app-z4rbx3.streamlit.app/)
+https://vniharika33-intelligent-candidate-discovery-ranking--app-z4rbx3.streamlit.app/
 
 The sandbox uses the same scoring methodology as the full submission but is intended for small evaluation samples to satisfy the challenge compute constraints.
 
