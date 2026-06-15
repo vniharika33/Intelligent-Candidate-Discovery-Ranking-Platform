@@ -195,26 +195,23 @@ If the embedding cache is unavailable, embeddings are automatically regenerated.
 
 ## Repository Structure
 
-main_batch.py
+main_batch.py - 
 Primary ranking pipeline
 
-ranker.py
+ranker.py -
 Feature engineering and scoring functions
 
-top100.py
+top100.py -
 Extracts Top-100 candidates
 
-generate_submission.py
+generate_submission.py -
 Generates final submission.csv
 
-job_description.txt
+job_description.txt -
 Target job description
 
-submission.csv
+submission.csv -
 Final submission file
-
-candidate_embeddings.pt
-Optional cached embeddings
 
 ---
 
@@ -267,6 +264,23 @@ submission.csv
 * On subsequent runs, cached embeddings are loaded automatically, significantly reducing runtime.
 * No external APIs or network access are required during ranking.
 
+## Live Demo
+
+A Streamlit sandbox is provided for evaluation.
+
+The demo allows reviewers to:
+
+1. Upload a candidate sample (≤100 candidates)
+2. Run the ranking pipeline end-to-end
+3. View ranked candidates
+4. Download the ranked CSV output
+
+Sandbox URL:
+
+[<PASTE_YOUR_STREAMLIT_LINK_HERE>](https://vniharika33-intelligent-candidate-discovery-ranking--app-z4rbx3.streamlit.app/)
+
+The sandbox uses the same scoring methodology as the full submission but is intended for small evaluation samples to satisfy the challenge compute constraints.
+
 
 ## Design Philosophy
 
@@ -288,5 +302,5 @@ This approach is designed to better surface candidates who are genuinely relevan
 
 ## Author
 
-Vennamaneni Niharika
+Vennamaneni Niharika -
 Redrob Intelligent Candidate Discovery & Ranking Challenge Submission
